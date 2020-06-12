@@ -1,11 +1,13 @@
 # SSH SCP SSH Pipelines
 
+[Github actions](https://help.github.com/en/actions/creating-actions/creating-a-docker-container-action)
+
 Credit to [SSH SCP Action of Ali Najafizadeh](https://github.com/alinz/ssh-scp-action)
 
-This action allows doing 
-1. ssh
-2. scp
-3. ssh
+This action allows doing in order
+1. ssh if defined
+2. scp if defined
+3. ssh if defined
 
 ## Inputs
 see the [action.yml](./action.yml) file for more detail imformation.
@@ -53,6 +55,7 @@ e.g.
 
 
 ## Usages
+see the [deploy.yml](./.github/workflows/deploy.yml) file for more detail imformation.
 
 #### ssh scp ssh pipelines
 ```yaml
