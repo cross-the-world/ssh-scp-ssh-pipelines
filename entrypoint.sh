@@ -46,7 +46,6 @@ executeSSH() {
       COMBINE="||"
     fi
     LINE=$(eval 'echo "$LINE"')
-    LINE=$(eval echo \$"$LINE")
     LINE="$LINE $LASTCOMBINE"
 
     if [ -z "$COMMANDS" ]; then
