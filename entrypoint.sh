@@ -30,7 +30,7 @@ executeSSH() {
 
   # this while read each commands in line and
   # evaluate each line against all environment variables
-  while IFS=$'\n' read -r LINE; do
+  while IFS= read -r LINE; do
     LINE=$(echo $LINE)
     COMBINE="&&"
     LASTCOMBINE="&&"
@@ -48,6 +48,7 @@ executeSSH() {
     LINE=$(eval 'echo "$LINE"')
     LINE=$(eval echo "$LINE")
     LINE="$LINE $LASTCOMBINE"
+    echo $LINE
 
     if [ -z "$COMMANDS" ]; then
       COMMANDS="$LINE"
@@ -85,7 +86,7 @@ executeSCP() {
     CMD="sshpass -p $INPUT_PASS scp"
   fi
 
-  while IFS=$'\n' read -r LINE; do
+  while IFS= read -r LINE; do
     delimiter="=>"
     LINE=`echo $LINE`
     s=$LINE$delimiter
