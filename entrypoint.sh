@@ -32,10 +32,14 @@ executeSSH() {
   # evaluate each line against all environment variables
   while IFS= read -r LINE; do
     LINE=$(echo $LINE)
+    if [[ -z "${LINE}" ]]; then
+      continue
+    fi
     COMBINE="&&"
-    LASTCOMBINE="&&"
+    LASTCOMBINE=""
     if [[ $LINE =~ ^.*\&\&$ ]];  then
       LINE="$LINE true"
+      LASTCOMBINE="&&"
     elif [[ $LINE =~ ^\&\&.*$ ]];  then
       LINE="true $LINE"
     elif [[ $LINE =~ ^.*\|\|$ ]]; then
@@ -46,6 +50,9 @@ executeSSH() {
       COMBINE="||"
     fi
     LINE=$(eval 'echo "$LINE"')
+    if ! [[ $LINE =~ ^\(.*\)$ ]];  then
+      LINE=$(eval echo "$LINE")
+    fi
     LINE="$LINE $LASTCOMBINE"
 
     if [ -z "$COMMANDS" ]; then

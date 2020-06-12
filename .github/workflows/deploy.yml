@@ -44,10 +44,10 @@ jobs:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
           pass: ${{ secrets.DC_PASS }}
-          scp: |
+          scp: |-
             ./test/test1* => /home/github/test/test1/
             ./test/test*.csv => "/home/github/test/test2/"
-          last_ssh: |
+          last_ssh: |-
             echo $LASTSSH
             ls -la
 
@@ -59,5 +59,5 @@ jobs:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
           pass: ${{ secrets.DC_PASS }}
-          scp: |
+          scp: |-
             './test/*' => /home/github/test/
