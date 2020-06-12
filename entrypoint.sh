@@ -30,9 +30,7 @@ executeSSH() {
 
   # this while read each commands in line and
   # evaluate each line against all environment variables
-  echo "TEST $LINES"
   while IFS= read -r LINE; do
-    echo "TEST $LINE"
     LINE=$(echo $LINE)
     COMBINE="&&"
     LASTCOMBINE="&&"
@@ -48,7 +46,7 @@ executeSSH() {
       COMBINE="||"
     fi
     LINE=$(eval 'echo "$LINE"')
-    LINE=$(eval echo "$LINE")
+    LINE=$(eval echo \$"$LINE")
     LINE="$LINE $LASTCOMBINE"
 
     if [ -z "$COMMANDS" ]; then
