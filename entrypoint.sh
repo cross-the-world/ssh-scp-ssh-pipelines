@@ -93,7 +93,10 @@ executeSCP() {
 
   while IFS= read -r LINE; do
     delimiter="=>"
-    LINE=`echo $LINE`
+    LINE=$(echo $LINE)
+    if [[ -z "${LINE}" ]]; then
+      continue
+    fi
     s=$LINE$delimiter
     arr=()
     while [[ $s ]]; do
