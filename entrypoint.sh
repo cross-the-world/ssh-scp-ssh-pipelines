@@ -22,7 +22,7 @@ createKeyFile() {
 
 executeSSH() {
   local USEPASS=$1
-  local LINES=$(echo -e $2)
+  local LINES=$2
   local COMMAND=""
 
   # holds all commands separated by semi-colon or keep "&&"
@@ -31,6 +31,7 @@ executeSSH() {
   # this while read each commands in line and
   # evaluate each line against all environment variables
   while IFS= read -r LINE; do
+    echo "TEST $LINE"
     LINE=$(echo $LINE)
     COMBINE="&&"
     LASTCOMBINE="&&"
@@ -48,7 +49,6 @@ executeSSH() {
     LINE=$(eval 'echo "$LINE"')
     LINE=$(eval echo "$LINE")
     LINE="$LINE $LASTCOMBINE"
-    echo $LINE
 
     if [ -z "$COMMANDS" ]; then
       COMMANDS="$LINE"
@@ -78,7 +78,7 @@ executeSSH() {
 
 executeSCP() {
   local USEPASS=$1
-  local LINES=$(echo -e $2)
+  local LINES=$2
   local COMMAND=
 
   CMD="scp"
