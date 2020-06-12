@@ -1,0 +1,62 @@
+name: scp files
+on: [push]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: ssh scp ssh pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.0.0
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: {{ secrets.DC_HOST }}
+          user: {{ secrets.DC_USER }}
+          pass: {{ secrets.DC_PASS }}
+          port: {{ secrets.DC_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            rm -rf /home/github/test
+            ls -la  \necho $WELCOME
+            mkdir -p /home/github/test/test1 &&
+            mkdir -p /home/github/test/test2 &&
+          scp: |
+            './test/*' => /home/github/test/
+            ./test/test1* => /home/github/test/test1/
+            ./test/test*.csv => "/home/github/test/test2/"
+          last_ssh: |
+            echo $LASTSSH &&
+            (mkdir test1/test || true)
+            || ls -la
+
+      - name: scp ssh pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.0.0
+        env:
+          WELCOME: "scp ssh pipelines"
+        with:
+          host: {{ secrets.DC_HOST }}
+          user: {{ secrets.DC_USER }}
+          pass: {{ secrets.DC_PASS }}
+          scp: |
+            ./test/test1* => /home/github/test/test1/
+            ./test/test*.csv => "/home/github/test/test2/"
+          last_ssh: |
+            echo $LASTSSH
+            ls -la
+
+      - name: scp pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.0.0
+        env:
+          WELCOME: "scp pipelines"
+        with:
+          host: {{ secrets.DC_HOST }}
+          user: {{ secrets.DC_USER }}
+          pass: {{ secrets.DC_PASS }}
+          scp: |
+            './test/*' => /home/github/test/
