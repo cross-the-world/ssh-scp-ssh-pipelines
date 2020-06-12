@@ -62,10 +62,10 @@ e.g.
     WELCOME: "ssh scp ssh pipelines"
     LASTSSH: "Doing something after copying"
   with:
-    host: {{ secrets.DC_HOST }}
-    user: {{ secrets.DC_USER }}
-    pass: {{ secrets.DC_PASS }}
-    port: {{ secrets.DC_PORT }}
+    host: ${{ secrets.DC_HOST }}
+    user: ${{ secrets.DC_USER }}
+    pass: ${{ secrets.DC_PASS }}
+    port: ${{ secrets.DC_PORT }}
     connect_timeout: 10s
     first_ssh: |
       rm -rf /home/github/test
@@ -89,9 +89,9 @@ e.g.
   env:
     LASTSSH: "Doing something after copying"
   with:
-    host: {{ secrets.DC_HOST }}
-    user: {{ secrets.DC_USER }}
-    pass: {{ secrets.DC_PASS }}
+    host: ${{ secrets.DC_HOST }}
+    user: ${{ secrets.DC_USER }}
+    pass: ${{ secrets.DC_PASS }}
     scp: |
       ./test/test1* => /home/github/test/test1/
       ./test/test*.csv => "/home/github/test/test2/"
@@ -105,9 +105,9 @@ e.g.
 - name: scp pipelines
   uses: cross-the-world/ssh-scp-ssh-pipelines@v1.0.0
   with:
-    host: {{ secrets.DC_HOST }}
-    user: {{ secrets.DC_USER }}
-    pass: {{ secrets.DC_PASS }}
+    host: ${{ secrets.DC_HOST }}
+    user: ${{ secrets.DC_USER }}
+    pass: ${{ secrets.DC_PASS }}
     scp: |
       './test/*' => /home/github/test/
 ```
