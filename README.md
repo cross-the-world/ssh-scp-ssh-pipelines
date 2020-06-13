@@ -2,7 +2,9 @@
 
 [Github actions](https://help.github.com/en/actions/creating-actions/creating-a-docker-container-action)
 
-Credit to [SSH SCP Action of Ali Najafizadeh](https://github.com/alinz/ssh-scp-action)
+[SSH action](https://github.com/cross-the-world/ssh-pipeline)
+
+[SCP action](https://github.com/cross-the-world/scp-pipeline)
 
 This action allows doing in order
 1. ssh if defined

@@ -4,6 +4,9 @@ on:
     branches:
       - latest
 
+env:
+  TARGET_DIR: /home/github/test
+
 jobs:
   build:
     name: Build
@@ -32,7 +35,7 @@ jobs:
             mkdir -p /home/github/test/test2 &&
           scp: |-
             './test/*' => /home/github/test/
-            ./test/test1* => /home/github/test/test1/
+            ./test/test1* => $TARGET_DIR/test1/
             ./test/test*.csv => "/home/github/test/test2/"
           last_ssh: |-
             echo $LASTSSH &&
@@ -49,7 +52,7 @@ jobs:
           pass: ${{ secrets.DC_PASS }}
           scp: |-
             ./test/test1* => /home/github/test/test1/
-            ./test/test*.csv => "/home/github/test/test2/"
+            "." => "$TARGET_DIR/test3/"
           last_ssh: |-
             echo $LASTSSH
             ls -la
@@ -58,9 +61,10 @@ jobs:
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
           WELCOME: "scp pipelines"
+          TO_DIR: /home/github/test/test4
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
           pass: ${{ secrets.DC_PASS }}
           scp: |-
-            './test/*' => /home/github/test/   
+            '.' => $TO_DIR

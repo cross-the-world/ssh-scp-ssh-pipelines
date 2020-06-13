@@ -37,12 +37,12 @@ def convert_to_seconds(s):
 strips = [" ", "\"", " ", "'", " "]
 
 
-def strip_path(p):
+def strip_and_parse_envs(p):
     if not p:
         return None
     for c in strips:
         p = p.strip(c)
-    return p
+    return path.expandvars(p)
 
 
 def connect(callback=None):
@@ -79,15 +79,18 @@ def ssh_process(ssh, input_ssh):
 
     stdin, stdout, stderr = ssh.exec_command(command_str)
 
-    err = "".join(stderr.readlines())
-    err = err.strip() if err is not None else None
-    if err:
-        print(f"Error: \n{err}")
-
     out = "".join(stdout.readlines())
     out = out.strip() if out is not None else None
     if out:
         print(f"Success: \n{out}")
+
+    err = "".join(stderr.readlines())
+    err = err.strip() if err is not None else None
+    if err:
+        if out is None:
+            raise Exception(err)
+        else:
+            print(f"Error: \n{err}")
 
     pass
 
@@ -99,8 +102,8 @@ def scp_process(ssh, input_scp):
             continue
         l2r = c.split("=>")
         if len(l2r) == 2:
-            local = strip_path(l2r[0])
-            remote = strip_path(l2r[1])
+            local = strip_and_parse_envs(l2r[0])
+            remote = strip_and_parse_envs(l2r[1])
             if local and remote:
                 copy_list.append({"l": local, "r": remote})
                 continue

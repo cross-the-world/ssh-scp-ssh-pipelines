@@ -2,7 +2,7 @@ FROM python:3.8.3-slim-buster
 
 LABEL "maintainer"="Scott Ng <thuongnht@gmail.com>"
 LABEL "repository"="https://github.com/cross-the-world/ssh-scp-ssh-pipelines"
-LABEL "version"="latest"
+LABEL "version"="v1.1.0"
 
 LABEL "com.github.actions.name"="ssh-scp-ssh-pipelines"
 LABEL "com.github.actions.description"="Pipeline: ssh -> scp -> ssh"
@@ -16,7 +16,6 @@ COPY requirements.txt /requirements.txt
 RUN pip3 install -r /requirements.txt
 
 RUN mkdir -p /opt/tools
-WORKDIR /opt/tools
 
 COPY entrypoint.sh /opt/tools/entrypoint.sh
 RUN chmod +x /opt/tools/entrypoint.sh
