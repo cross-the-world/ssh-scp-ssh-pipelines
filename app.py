@@ -34,6 +34,17 @@ def convert_to_seconds(s):
     return 30
 
 
+strips = ["", "\"", "", "'", ""]
+
+
+def strip_path(p):
+    if not p:
+        return None
+    for c in strips:
+        p = p.strip(c)
+    return p
+
+
 def connect(callback=None):
     with paramiko.SSHClient() as ssh:
         p_key = paramiko.RSAKey.from_private_key(INPUT_KEY) if INPUT_KEY else None
@@ -84,8 +95,8 @@ def scp_process(ssh, input_scp):
             continue
         l2r = c.split("=>")
         if len(l2r) == 2:
-            local = l2r[0].strip()
-            remote = l2r[1].strip()
+            local = strip_path(l2r[0])
+            remote = strip_path(l2r[1])
             if local and remote:
                 copy_list.append({"l": local, "r": remote})
                 continue

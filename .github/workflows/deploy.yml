@@ -37,7 +37,7 @@ jobs:
           last_ssh: |-
             echo $LASTSSH &&
             (mkdir test1/test || true)
-            || ls -la
+            ls -la
 
       - name: scp ssh pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
