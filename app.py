@@ -34,7 +34,7 @@ def convert_to_seconds(s):
     return 30
 
 
-strips = ["", "\"", "", "'", ""]
+strips = [" ", "\"", " ", "'", " "]
 
 
 def strip_path(p):
