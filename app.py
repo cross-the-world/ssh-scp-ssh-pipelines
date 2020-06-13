@@ -82,9 +82,13 @@ def ssh_process(ssh, input_ssh):
     err = "".join(stderr.readlines())
     err = err.strip() if err is not None else None
     if err:
-        raise Exception(f"SSH failed:\n{err}")
+        print(f"Error: \n{err}")
 
-    print("".join(stdout.readlines()))
+    out = "".join(stdout.readlines())
+    out = out.strip() if out is not None else None
+    if out:
+        print(f"Success: \n{out}")
+
     pass
 
 
