@@ -23,4 +23,4 @@ RUN chmod +x /opt/tools/entrypoint.sh
 COPY app.py /opt/tools/app.py
 RUN chmod +x /opt/tools/app.py
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/opt/tools/entrypoint.sh"]
