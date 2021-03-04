@@ -3,7 +3,7 @@
 echo "+++++++++++++++++++STARTING PIPELINES+++++++++++++++++++"
 
 python3 /opt/tools/app.py
-RET = $?
+RET=$?
 
 echo "+++++++++++++++++++END PIPELINES+++++++++++++++++++"
 
