@@ -80,8 +80,10 @@ def ssh_process(ssh, input_ssh):
         c = path.expandvars(commands[i])
         if c == "":
             continue
-        if c.endswith('&&') or c.endswith('||') or c.endswith(';'):
+        if c.endswith('&&') or c.endswith('||'):
             c = c[0:-2] if i == (l-1) else c
+        elif c.endswith(';'):
+            c = c[0:-1] if i == (l-1) else c
         else:
             c = f"{c} &&" if i < (l-1) else c
         command_str = f"{command_str} {c}"
