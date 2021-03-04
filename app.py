@@ -60,8 +60,14 @@ def connect(callback=None):
         ssh.connect(INPUT_HOST, port=INPUT_PORT, username=INPUT_USER,
                     pkey=p_key, password=INPUT_PASS,
                     timeout=convert_to_seconds(INPUT_CONNECT_TIMEOUT))
+    except Exception as err:
+        print(f"Connect error\n{err}")
+        sys.exit(1)
+        
+    else:
         if callback:
             callback(ssh)
+            
     finally:
         os.unlink(tmp.name)
         tmp.close()
@@ -89,7 +95,7 @@ def ssh_process(ssh, input_ssh):
     print(command_str)
 
     stdin, stdout, stderr = ssh.exec_command(command_str)
-
+    
     out = "".join(stdout.readlines())
     out = out.strip() if out is not None else None
     if out:
@@ -98,11 +104,9 @@ def ssh_process(ssh, input_ssh):
     err = "".join(stderr.readlines())
     err = err.strip() if err is not None else None
     if err:
-        if out is None:
-            raise Exception(err)
-        else:
-            print(f"Error: \n{err}")
-
+        print(f"Error: \n{err}")
+        sys.exit(1)
+        
     pass
 
 
@@ -128,10 +132,19 @@ def scp_process(ssh, input_scp):
     with scp.SCPClient(ssh.get_transport(), progress=progress, sanitize=lambda x: x) as conn:
         for l2r in copy_list:
             remote = l2r.get('r')
-            ssh.exec_command(f"mkdir -p {remote} || true")
+            try:
+                ssh.exec_command(f"mkdir -p {remote}")
+            except Exception as err:
+                print(f"Remote mkdir error. Can't create {remote}\n{err}")
+                sys.exit(1)
+                
             for f in [f for f in glob(l2r.get('l'))]:
-                conn.put(f, remote_path=remote, recursive=True)
-                print(f"{f} -> {remote}")
+                try:
+                    conn.put(f, remote_path=remote, recursive=True)
+                    print(f"{f} -> {remote}")
+                except Exception as err:
+                    print(f"Scp error. Can't copy {f} on {remote}\n{err}")
+                    sys.exit(1)
     pass
 
 
