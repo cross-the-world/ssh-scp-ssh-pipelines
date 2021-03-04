@@ -63,6 +63,7 @@ def connect(callback=None):
     except:
         print("Connect error")
         raise
+        sys.exit(1)
         
     else:
         if callback:
@@ -106,6 +107,7 @@ def ssh_process(ssh, input_ssh):
     if err:
         print(f"Error: \n{err}")
         raise Exception(err)
+        sys.exit(1)
         
     pass
 
@@ -137,6 +139,7 @@ def scp_process(ssh, input_scp):
             except:
                 print(f"Remote mkdir error. Can't create {remote}")
                 raise
+                sys.exit(1)
                 
             for f in [f for f in glob(l2r.get('l'))]:
                 try:
@@ -145,6 +148,7 @@ def scp_process(ssh, input_scp):
                 except:
                     print(f"scp error. Can't copy {f} on {remote}")
                     raise
+                    sys.exit(1)
     pass
 
 
