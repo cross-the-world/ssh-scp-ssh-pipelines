@@ -60,9 +60,8 @@ def connect(callback=None):
         ssh.connect(INPUT_HOST, port=INPUT_PORT, username=INPUT_USER,
                     pkey=p_key, password=INPUT_PASS,
                     timeout=convert_to_seconds(INPUT_CONNECT_TIMEOUT))
-    except:
-        print("Connect error")
-        raise
+    except Exception as err:
+        print(f"Connect error\n{err}")
         sys.exit(1)
         
     else:
@@ -106,7 +105,6 @@ def ssh_process(ssh, input_ssh):
     err = err.strip() if err is not None else None
     if err:
         print(f"Error: \n{err}")
-        raise Exception(err)
         sys.exit(1)
         
     pass
@@ -136,18 +134,16 @@ def scp_process(ssh, input_scp):
             remote = l2r.get('r')
             try:
                 ssh.exec_command(f"mkdir -p {remote}")
-            except:
-                print(f"Remote mkdir error. Can't create {remote}")
-                raise
+            except Exception as err:
+                print(f"Remote mkdir error. Can't create {remote}\n{err}")
                 sys.exit(1)
                 
             for f in [f for f in glob(l2r.get('l'))]:
                 try:
                     conn.put(f, remote_path=remote, recursive=True)
                     print(f"{f} -> {remote}")
-                except:
-                    print(f"scp error. Can't copy {f} on {remote}")
-                    raise
+                except Exception as err:
+                    print(f"Scp error. Can't copy {f} on {remote}\n{err}")
                     sys.exit(1)
     pass
 
