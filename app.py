@@ -105,7 +105,8 @@ def ssh_process(ssh, input_ssh):
     err = err.strip() if err is not None else None
     if err:
         print(f"Error: \n{err}")
-        sys.exit(1)
+        if out is None:
+            sys.exit(1)
         
     pass
 
