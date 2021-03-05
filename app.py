@@ -97,7 +97,6 @@ def ssh_process(ssh, input_ssh):
     stdin, stdout, stderr = ssh.exec_command(command_str)
     
     ssh_exit_status = stdout.channel.recv_exit_status()
-    print(f"ssh exit status: {ssh_exit_status}")
     
     out = "".join(stdout.readlines())
     out = out.strip() if out is not None else None
@@ -108,8 +107,7 @@ def ssh_process(ssh, input_ssh):
     err = err.strip() if err is not None else None
     if err:
         print(f"Error: \n{err}")
-        if out is None:
-            sys.exit(1)
+    
     if  ssh_exit_status != 0:
         print(f"ssh exit status: {ssh_exit_status}")
         sys.exit(1)
