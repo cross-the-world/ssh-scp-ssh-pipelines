@@ -12,7 +12,7 @@ This action allows doing in order
 3. ssh if defined
 
 ## Inputs
-see the [action.yml](./action.yml) file for more detail imformation.
+see the [action.yml](./action.yml) file for more detail information.
 
 ### `host`
 
